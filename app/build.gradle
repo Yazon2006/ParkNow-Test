@@ -36,6 +36,9 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation "com.android.support:appcompat-v7:$supportVersion"
 
+    /** https://github.com/nhaarman/mockito-kotlin */
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+
     /** https://github.com/google/dagger */
     def daggerVersion = "2.17"
     implementation "com.google.dagger:dagger:$daggerVersion"

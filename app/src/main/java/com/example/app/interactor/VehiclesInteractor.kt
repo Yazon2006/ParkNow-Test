@@ -17,7 +17,7 @@ class VehiclesInteractor @Inject constructor(
 	}
 
 	suspend fun fetchVehicles() {
-		//todo clarify pagination logic and add it with test coverage
+		//todo clarify pagination logic and add it
 		val vehicles = vehiclesRepository.getVehicles()
 		vehiclesRepository.saveVehiclesLocally(vehicles)
 	}

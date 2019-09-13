@@ -1,8 +1,17 @@
-package com.example.app.view.base
+package com.example.app.view.base.extensions
 
+import android.app.Activity
+import android.os.Binder
+import android.os.Bundle
+import android.os.Parcelable
+import android.support.v4.app.BundleCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import com.example.app.myapplication.R
+import com.example.app.view.base.BaseFragment
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 /**
  * This class closely related to switchChildFragments method and generally it is FragmentTransaction
@@ -42,13 +51,14 @@ object MiddleFragmentSlideAnimation : FragmentAnimation(R.anim.slide_from_right,
  * IMPORTANT! In case if there are mixed actions with and without animations you should know that
  * order of committing transactions is very important. Actions with animation should be the first one
  */
-fun Fragment.switchChildFragments(vararg actions: FragmentAction) {
-	val fragmentTransaction = childFragmentManager.beginTransaction()
+fun Activity.switchFragments(vararg actions: FragmentAction) {
+	val fragmentManager: FragmentManager = if (this is AppCompatActivity) supportFragmentManager else error("Only AppCompatActivity instance allowed here")
+	val fragmentTransaction = fragmentManager.beginTransaction()
 	actions
 			.sortedBy { it.animation != NoFragmentAnimation }
 			.forEach { fragmentAction ->
 				if (fragmentAction.clearBackStack) {
-					childFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+					fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 				}
 
 				val animation = fragmentAction.animation
@@ -56,8 +66,8 @@ fun Fragment.switchChildFragments(vararg actions: FragmentAction) {
 
 				val fragmentTag = fragmentAction.fragment.navigationTag
 
-				if (fragmentAction.avoidDuplication && childFragmentManager.findFragmentByTag(fragmentTag) != null) {
-					childFragmentManager.popBackStackImmediate(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+				if (fragmentAction.avoidDuplication && fragmentManager.findFragmentByTag(fragmentTag) != null) {
+					fragmentManager.popBackStackImmediate(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 				}
 
 				fragmentTransaction.replace(fragmentAction.containerResId, fragmentAction.fragment, fragmentTag)
@@ -67,4 +77,48 @@ fun Fragment.switchChildFragments(vararg actions: FragmentAction) {
 				}
 			}
 	fragmentTransaction.commit()
+}
+
+class FragmentArg<T : Any> : ReadWriteProperty<Fragment, T> {
+
+	var value: T? = null
+
+	override operator fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+		if (value == null) {
+			val args = thisRef.arguments
+					?: throw IllegalStateException("Cannot read property ${property.name} if no arguments have been set")
+			@Suppress("UNCHECKED_CAST")
+			value = args.get(property.name) as T
+		}
+		return value ?: throw IllegalStateException("Property ${property.name} could not be read")
+	}
+
+	override operator fun setValue(thisRef: Fragment, property: KProperty<*>, value: T) {
+		if (thisRef.arguments == null) thisRef.arguments = Bundle()
+
+		val args = thisRef.arguments
+		val key = property.name
+		if (args?.containsKey(key) == true) {
+			error("Impossible to change fragment arg if it was set before")
+		}
+
+		when (value) {
+			is String -> args?.putString(key, value)
+			is Int -> args?.putInt(key, value)
+			is Short -> args?.putShort(key, value)
+			is Long -> args?.putLong(key, value)
+			is Byte -> args?.putByte(key, value)
+			is ByteArray -> args?.putByteArray(key, value)
+			is Char -> args?.putChar(key, value)
+			is CharArray -> args?.putCharArray(key, value)
+			is CharSequence -> args?.putCharSequence(key, value)
+			is Float -> args?.putFloat(key, value)
+			is Bundle -> args?.putBundle(key, value)
+			is IntArray -> args?.putIntArray(key, value)
+			is Binder -> args?.let { BundleCompat.putBinder(it, key, value) }
+			is Parcelable -> args?.putParcelable(key, value)
+			is java.io.Serializable -> args?.putSerializable(key, value)
+			else -> error("Type of property ${property.name} is not supported")
+		}
+	}
 }

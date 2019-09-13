@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/normal_offset">
+
+    <TextView
+        android:id="@+id/vehicleVrnTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="PARK02" />
+
+    <TextView
+        android:id="@+id/vehicleColorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_offset"
+        android:textColor="@color/color_black"
+        android:textSize="16sp"
+        tools:text="Color: Blue" />
+
+    <TextView
+        android:id="@+id/vehicleCountryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_offset"
+        android:textColor="@color/color_black"
+        android:textSize="16sp"
+        tools:text="Country: GB" />
+
+    <TextView
+        android:id="@+id/vehicleTypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_offset"
+        android:textColor="@color/color_black"
+        android:textSize="16sp"
+        tools:text="Type: Truck" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_offset"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/vehicleDefaultTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_str"
+            android:textColor="@color/color_black"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/vehicleDefaultCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false" />
+
+    </LinearLayout>
+
+</LinearLayout>

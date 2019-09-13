@@ -1,19 +1,23 @@
 package com.example.app.data.entity
 
 import com.google.gson.annotations.SerializedName
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
 
+@Entity
 class Vehicle(
+		@Id(assignable = true)
 		@SerializedName("vehicleId")
-		val vehicleId: Long,
+		var id: Long = 0,
 		@SerializedName("vrn")
-		val vrn: String,
+		val vrn: String? = null,
 		@SerializedName("country")
-		val country: String,
+		val country: String? = null,
 		@SerializedName("color")
-		val color: String,
+		val color: String? = null,
 		@SerializedName("type")
-		val type: String,
+		val type: String? = null,
 		@SerializedName("default")
-		val default: Boolean
+		val isDefault: Boolean? = null
 )
 

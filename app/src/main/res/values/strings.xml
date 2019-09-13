@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ParkNow test</string>
+    <string name="vehicle_list_is_empty">Vehicle list is empty</string>
+    <string name="retry_vehicle_list">Error happened during vehicle list retrieve. Please try again later</string>
+    <string name="color">Color: %s</string>
+    <string name="country">Country: %s</string>
+    <string name="type">Type: %s</string>
+    <string name="default_str">Default:</string>
 </resources>

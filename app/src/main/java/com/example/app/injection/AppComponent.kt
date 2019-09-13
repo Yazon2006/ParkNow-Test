@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class, AppBindingModule::class, AppModule::class,
-	ApiModule::class])
+	ApiModule::class, DataBaseModule::class])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
 	override fun inject(app: DaggerApplication)

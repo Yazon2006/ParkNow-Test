@@ -7,6 +7,8 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.example.app.myapplication.R
 import com.example.app.view.base.BaseActivity
 import com.example.app.view.base.BaseView
+import com.example.app.view.base.extensions.FragmentAction
+import com.example.app.view.base.extensions.switchFragments
 import com.example.app.view.vehicles.VehiclesListFragment
 import dagger.Lazy
 import javax.inject.Inject
@@ -30,8 +32,12 @@ class MainActivity : BaseActivity(), MainView {
 	fun providePresenter(): MainPresenter = daggerPresenter.get()
 
 	override fun showVehiclesListFragment() {
-		supportFragmentManager.beginTransaction().add(R.id.frameLayout, VehiclesListFragment())
-				.commit()
+		//todo use fragment router
+		switchFragments(FragmentAction(
+				containerResId = R.id.frameLayout,
+				fragment = VehiclesListFragment(),
+				clearBackStack = true
+		))
 	}
 
 }

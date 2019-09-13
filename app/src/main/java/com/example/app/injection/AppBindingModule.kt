@@ -1,7 +1,7 @@
 package com.example.app.injection
 
-import com.example.app.view.fragment.ImportantFragment
-import com.example.app.view.activity.MainActivity
+import com.example.app.view.vehicles.VehiclesListFragment
+import com.example.app.view.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -11,5 +11,5 @@ abstract class AppBindingModule {
     abstract fun bindMainActivity(): MainActivity
 
     @ContributesAndroidInjector
-    abstract fun bindImportantFragment(): ImportantFragment
+    abstract fun bindVehiclesListFragment(): VehiclesListFragment
 }
